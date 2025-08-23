@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Baraka Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e0f2f7; /* Light blue background */
+        }
+        .message-box {
+            display: none;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        .message-box .icon {
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }
+        .message-box.error {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+        .message-box.success {
+            background-color: #d1fae5;
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        .message-box.loading {
+            background-color: #bfdbfe;
+            color: #1d4ed8;
+            border: 1px solid #1d4ed8;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-blue-50 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-2xl bg-white p-8 rounded-lg shadow-xl mx-auto border-t-4 border-blue-600">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-half mr-2 text-blue-600"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M12 22V2"/></svg>
+            Admin Dashboard
+        </h1>
+
+        <div id="adminMessageBox" class="message-box"></div>
+
+        <!-- Admin Login Form (initially shown) -->
+        <form id="adminLoginForm" class="space-y-4">
+            <h3 class="text-xl font-semibold text-center text-gray-700 mb-4">Admin Login</h3>
+            <div>
+                <label for="adminEmail" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="adminEmail" name="adminEmail" placeholder="Admin email"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="adminPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="adminPassword" name="adminPassword" placeholder="Admin password"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                       required>
+            </div>
+            <button type="submit" id="adminLoginButton"
+                    class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Log In as Admin
+                <svg id="adminLoginSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            </button>
+        </form>
+
+        <!-- Admin Content Management (hidden until logged in) -->
+        <div id="adminContent" class="hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-panel-left mr-2 text-blue-600"><rect width="7" height="18" x="3" y="3" rx="1"/><path d="M10 4h11a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-11"/></svg>
+                Manage Organization News
+            </h2>
+
+            <form id="addNewsForm" class="space-y-4 p-6 bg-blue-50 rounded-lg shadow-inner mb-6">
+                <h3 class="text-xl font-semibold text-gray-700 mb-4">Add New News Item</h3>
+                <div>
+                    <label for="newsTitle" class="block text-sm font-medium text-gray-700 mb-1">News Title</label>
+                    <input type="text" id="newsTitle" name="newsTitle" placeholder="Enter news title"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                           required>
+                </div>
+                <div>
+                    <label for="newsContent" class="block text-sm font-medium text-gray-700 mb-1">News Content</label>
+                    <textarea id="newsContent" name="newsContent" rows="5" placeholder="Write the news details here..."
+                              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                              required></textarea>
+                </div>
+                <button type="submit" id="addNewsButton"
+                        class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Add News
+                    <svg id="addNewsSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </button>
+            </form>
+
+            <h3 class="text-xl font-semibold text-gray-700 mb-4 mt-8">Recent News Items</h3>
+            <div id="newsList" class="space-y-4">
+                <p class="text-gray-500">No news items yet. Add some above!</p>
+                <!-- News items will be dynamically loaded here -->
+            </div>
+
+            <div class="mt-8 text-center">
+                <button id="adminLogoutButton"
+                        class="bg-red-600 text-white py-2 px-6 rounded-md text-lg font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Your specific Firebase Configuration provided by Alvine
+        const firebaseConfig = {
+            apiKey: "AIzaSyBRVqHDVjcXdrIm6OolwzPlaB7LYQFFtFc",
+            authDomain: "baraka-bot-registration.firebaseapp.com",
+            projectId: "baraka-bot-registration",
+            storageBucket: "baraka-bot-registration.firebasestorage.app",
+            messagingSenderId: "289777012967",
+            appId: "1:289777012967:web:5c59480a4e4e2a13f09242",
+            measurementId: "G-EKH2MN7WDR"
+        };
+
+        const appId = firebaseConfig.projectId;
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const adminContent = document.getElementById('adminContent');
+        const adminEmailInput = document.getElementById('adminEmail');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const adminLoginButton = document.getElementById('adminLoginButton');
+        const adminLoginSpinner = document.getElementById('adminLoginSpinner');
+        const adminLogoutButton = document.getElementById('adminLogoutButton');
+        const adminMessageBox = document.getElementById('adminMessageBox');
+
+        const addNewsForm = document.getElementById('addNewsForm');
+        const newsTitleInput = document.getElementById('newsTitle');
+        const newsContentInput = document.getElementById('newsContent');
+        const addNewsButton = document.getElementById('addNewsButton');
+        const addNewsSpinner = document.getElementById('addNewsSpinner');
+        const newsListDiv = document.getElementById('newsList');
+
+        // --- Message Box Function ---
+        function showAdminMessage(message, type = 'error') {
+            adminMessageBox.innerHTML = `<span class="icon">${type === 'success' ? '?' : type === 'loading' ? '?' : '?'}</span>${message}`;
+            adminMessageBox.className = `message-box ${type}`;
+            adminMessageBox.style.display = 'flex';
+            setTimeout(() => {
+                adminMessageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // --- Admin Login/Logout Logic ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // For a real app, you'd check if this user's UID is in an 'admins' list in Firestore
+                // For simplicity, we'll just show the admin content if ANY user is logged in
+                // CONSIDER adding an actual check if user.email === "your.admin.email@example.com"
+                showAdminContent();
+                setupNewsListener(); // Start listening for news updates
+            } else {
+                showAdminLogin();
+            }
+        });
+
+        async function adminLogin(email, password) {
+            adminLoginButton.disabled = true;
+            adminLoginSpinner.classList.remove('hidden');
+            showAdminMessage('Logging in...', 'loading');
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                adminLoginForm.reset();
+                showAdminMessage('Admin login successful!', 'success');
+                // The onAuthStateChanged listener will handle showing admin content
+            } catch (error) {
+                console.error("Admin login error:", error);
+                let errorMessage = 'Login failed. Please check credentials.';
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMessage = 'Invalid admin email or password.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                }
+                showAdminMessage(errorMessage, 'error');
+            } finally {
+                adminLoginButton.disabled = false;
+                adminLoginSpinner.classList.add('hidden');
+            }
+        }
+
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = adminEmailInput.value;
+            const password = adminPasswordInput.value;
+            adminLogin(email, password);
+        });
+
+        adminLogoutButton.addEventListener('click', async () => {
+            await signOut(auth);
+            showAdminMessage('Logged out as admin.', 'success');
+            // The onAuthStateChanged listener will handle showing login form
+        });
+
+        function showAdminContent() {
+            adminLoginForm.classList.add('hidden');
+            adminContent.classList.remove('hidden');
+            adminMessageBox.style.display = 'none'; // Clear messages
+        }
+
+        function showAdminLogin() {
+            adminLoginForm.classList.remove('hidden');
+            adminContent.classList.add('hidden');
+            adminMessageBox.style.display = 'none'; // Clear messages
+        }
+
+        // --- News Management Logic ---
+        addNewsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            addNewsButton.disabled = true;
+            addNewsSpinner.classList.remove('hidden');
+            showAdminMessage('Adding news...', 'loading');
+
+            const title = newsTitleInput.value.trim();
+            const content = newsContentInput.value.trim();
+
+            if (!title || !content) {
+                showAdminMessage('News title and content cannot be empty.', 'error');
+                addNewsButton.disabled = false;
+                addNewsSpinner.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const newsCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationNews`);
+                await addDoc(newsCollectionRef, {
+                    title: title,
+                    content: content,
+                    timestamp: serverTimestamp(),
+                    postedBy: auth.currentUser.email // Record who posted it
+                });
+                showAdminMessage('News added successfully!', 'success');
+                addNewsForm.reset();
+            } catch (error) {
+                console.error("Error adding news:", error);
+                showAdminMessage(`Failed to add news: ${error.message}`, 'error');
+            } finally {
+                addNewsButton.disabled = false;
+                addNewsSpinner.classList.add('hidden');
+            }
+        });
+
+        // --- Real-time News Listener ---
+        function setupNewsListener() {
+            const newsCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationNews`);
+            const q = query(newsCollectionRef, orderBy("timestamp", "desc"), limit(10)); // Get latest 10 news items
+
+            onSnapshot(q, (snapshot) => {
+                newsListDiv.innerHTML = ''; // Clear existing news
+                if (snapshot.empty) {
+                    newsListDiv.innerHTML = '<p class="text-gray-500">No news items yet. Add some above!</p>';
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const news = doc.data();
+                    const newsId = doc.id;
+                    const date = news.timestamp ? new Date(news.timestamp.seconds * 1000).toLocaleDateString() : 'N/A';
+                    const newsItemHtml = `
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-blue-100 flex justify-between items-center">
+                            <div>
+                                <h4 class="font-semibold text-lg text-gray-800">${news.title}</h4>
+                                <p class="text-gray-600 text-sm">${news.content.substring(0, 100)}...</p>
+                                <p class="text-gray-500 text-xs mt-1">Posted by ${news.postedBy} on ${date}</p>
+                            </div>
+                            <!-- Future: Add Edit/Delete buttons here -->
+                            <!-- <button data-id="${newsId}" class="delete-news-btn text-red-500 hover:text-red-700 ml-4">Delete</button> -->
+                        </div>
+                    `;
+                    newsListDiv.innerHTML += newsItemHtml;
+                });
+            }, (error) => {
+                console.error("Error listening to news:", error);
+                newsListDiv.innerHTML = '<p class="text-red-500">Error loading news.</p>';
+            });
+        }
+
+    </script>
+</body>
+</html>

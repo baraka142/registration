@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Login/Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .message-box {
+            display: none;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        .message-box .icon {
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }
+        .message-box.error {
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+        .message-box.success {
+            background-color: #d1fae5;
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        .message-box.loading {
+            background-color: #bfdbfe;
+            color: #1d4ed8;
+            border: 1px solid #1d4ed8;
+        }
+        /* Modal specific styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        /* Spinner animation */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        .dashboard-bg {
+            background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet gradient */
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background-color: #cbd5e1; /* Gray-300 */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #4b5563; /* Gray-700 */
+            margin: 0 auto 1.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="authContainer" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
+        <div class="flex justify-center mb-6">
+            <button id="showRegisterBtn" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-l-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button>
+            <button id="showLoginBtn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-500">Log In</button>
+        </div>
+
+        <h2 id="formTitle" class="text-3xl font-bold text-center text-gray-800 mb-6">Register Your Account</h2>
+
+        <div id="messageBox" class="message-box"></div>
+
+        <form id="registrationForm" action="#" method="POST" class="space-y-4">
+            <div>
+                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="regEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="regEmail" name="regEmail" placeholder="Enter your email"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="regPhone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <input type="tel" id="regPhone" name="regPhone" placeholder="e.g., +2547XXXXXXXX"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="regPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="regPassword" name="regPassword" placeholder="Create a password"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="regConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                <input type="password" id="regConfirmPassword" name="regConfirmPassword" placeholder="Confirm your password"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="organizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in the Organization</label>
+                <select id="organizationRole" name="organizationRole"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
+                    <option value="">Select a role</option>
+                    <option value="member">Member</option>
+                    <option value="volunteer">Volunteer</option>
+                    <option value="leader">Team Leader</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button type="submit" id="registerButton"
+                    class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Register
+                <svg id="registerSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            </button>
+        </form>
+
+        <form id="loginForm" action="#" method="POST" class="space-y-4 hidden">
+            <div>
+                <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter your email"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <div>
+                <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       required>
+            </div>
+            <button type="submit" id="loginButton"
+                    class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Log In
+                <svg id="loginSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            </button>
+        </form>
+
+        <!-- Admin Login Link -->
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            Are you an administrator? <a href="admin-dashboard" class="text-indigo-600 hover:underline">Go to Admin Login</a>
+        </div>
+    </div>
+
+    <!-- The Member Dashboard -->
+    <div id="memberDashboard" class="hidden w-full max-w-4xl bg-white p-8 rounded-lg shadow-xl mx-auto text-left grid grid-cols-1 md:grid-cols-3 gap-8 dashboard-bg text-white">
+        <div class="md:col-span-3 text-center pb-4 border-b border-indigo-300 mb-6">
+            <div class="avatar">??</div>
+            <h1 class="text-4xl font-extrabold mb-2">Welcome, <span id="dashboardFullName" class="text-indigo-200">Member!</span></h1>
+            <p class="text-lg font-light">Your personalized dashboard for the Baraka Bot Organization.</p>
+        </div>
+
+        <!-- Personal Details Card -->
+        <div class="bg-white bg-opacity-90 text-gray-800 p-6 rounded-lg shadow-md border border-indigo-100 flex flex-col justify-between">
+            <div>
+                <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user mr-2 text-indigo-600"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Your Profile
+                </h3>
+                <p class="mb-2"><span class="font-medium">Email:</span> <span id="dashboardUserEmail" class="font-normal"></span></p>
+                <p class="mb-2"><span class="font-medium">Phone:</span> <span id="dashboardUserPhone" class="font-normal"></span></p>
+                <p><span class="font-medium">Role:</span> <span id="dashboardUserRole" class="font-normal"></span></p>
+            </div>
+            <button id="editProfileBtn" class="mt-6 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">Edit Profile</button>
+        </div>
+
+        <!-- News & Resources Card -->
+        <div class="bg-white bg-opacity-90 text-gray-800 p-6 rounded-lg shadow-md border border-gray-200 md:col-span-2 flex flex-col justify-between">
+            <div>
+                <h3 class="text-2xl font-semibold mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone mr-2 text-gray-600"><path d="m3 11 18-8-8 18-10-10z"/><path d="M11.5 11.5 20 20"/></svg>
+                    Organization Updates
+                </h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-2" id="dashboardNewsList">
+                    <p class="text-gray-500">Loading news...</p>
+                    <!-- News items will be dynamically loaded here from Firestore -->
+                </ul>
+            </div>
+            <button class="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">View All News</button>
+        </div>
+
+        <div class="md:col-span-3 text-center mt-6">
+            <button id="logoutButton" class="bg-red-600 text-white py-2 px-6 rounded-md text-lg font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">Log Out</button>
+        </div>
+    </div>
+
+    <!-- Profile Edit Modal (hidden by default) -->
+    <div id="editProfileModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Edit Your Profile</h3>
+            <div id="modalMessageBox" class="message-box"></div>
+            <form id="editProfileForm" class="space-y-4">
+                <div>
+                    <label for="editFullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="editFullName" name="editFullName"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                           required>
+                </div>
+                <div>
+                    <label for="editPhone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="editPhone" name="editPhone"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                           required>
+                </div>
+                <div>
+                    <label for="editOrganizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in the Organization</label>
+                    <select id="editOrganizationRole" name="editOrganizationRole"
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            required>
+                        <option value="member">Member</option>
+                        <option value="volunteer">Volunteer</option>
+                        <option value="leader">Team Leader</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" id="cancelEditBtn"
+                            class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Cancel
+                    </button>
+                    <button type="submit" id="saveProfileBtn"
+                            class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center">
+                        Save Changes
+                        <svg id="saveProfileSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, doc, updateDoc, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Your specific Firebase Configuration provided by Alvine
+        const firebaseConfig = {
+            apiKey: "AIzaSyBRVqHDVjcXdrIm6OolwzPlaB7LYQFFtFc",
+            authDomain: "baraka-bot-registration.firebaseapp.com",
+            projectId: "baraka-bot-registration",
+            storageBucket: "baraka-bot-registration.firebasestorage.app",
+            messagingSenderId: "289777012967",
+            appId: "1:289777012967:web:5c59480a4e4e2a13f09242",
+            measurementId: "G-EKH2MN7WDR"
+        };
+
+        const appId = firebaseConfig.projectId;
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const authContainer = document.getElementById('authContainer');
+        const memberDashboard = document.getElementById('memberDashboard');
+        const registrationForm = document.getElementById('registrationForm');
+        const loginForm = document.getElementById('loginForm');
+        const showRegisterBtn = document.getElementById('showRegisterBtn');
+        const showLoginBtn = document.getElementById('showLoginBtn');
+        const formTitle = document.getElementById('formTitle');
+        const messageBox = document.getElementById('messageBox');
+        const registerButton = document.getElementById('registerButton');
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const editProfileModal = document.getElementById('editProfileModal');
+        const editProfileForm = document.getElementById('editProfileForm');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
+        const modalMessageBox = document.getElementById('modalMessageBox');
+
+        // Dashboard specific elements
+        const dashboardFullName = document.getElementById('dashboardFullName');
+        const dashboardUserEmail = document.getElementById('dashboardUserEmail');
+        const dashboardUserPhone = document.getElementById('dashboardUserPhone');
+        const dashboardUserRole = document.getElementById('dashboardUserRole');
+        const dashboardNewsList = document.getElementById('dashboardNewsList'); // New: for news display
+
+
+        // Spinners
+        const registerSpinner = document.getElementById('registerSpinner');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const saveProfileSpinner = document.getElementById('saveProfileSpinner');
+
+
+        // Global variable to store the Firestore document ID for the current user's profile
+        let currentUserProfileDocId = null;
+
+        // Function to display messages in the main message box
+        function showMessage(message, type = 'error') {
+            messageBox.innerHTML = `<span class="icon">${type === 'success' ? '?' : type === 'loading' ? '?' : '?'}</span>${message}`;
+            messageBox.className = `message-box ${type}`;
+            messageBox.style.display = 'flex';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Function to display messages in the modal message box
+        function showModalMessage(message, type = 'error') {
+            modalMessageBox.innerHTML = `<span class="icon">${type === 'success' ? '?' : type === 'loading' ? '?' : '?'}</span>${message}`;
+            modalMessageBox.className = `message-box ${type}`;
+            modalMessageBox.style.display = 'flex';
+            setTimeout(() => {
+                modalMessageBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // --- UI Logic to toggle forms ---
+        function showAuthForms() {
+            authContainer.classList.remove('hidden');
+            memberDashboard.classList.add('hidden');
+            formTitle.textContent = 'Register Your Account';
+            registrationForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            showRegisterBtn.classList.add('bg-indigo-600', 'text-white');
+            showRegisterBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            showLoginBtn.classList.add('bg-gray-200', 'text-gray-700');
+            showLoginBtn.classList.remove('bg-indigo-600', 'text-white');
+            messageBox.style.display = 'none';
+            editProfileModal.classList.add('hidden');
+        }
+
+        showRegisterBtn.addEventListener('click', () => {
+            showAuthForms();
+        });
+
+        showLoginBtn.addEventListener('click', () => {
+            authContainer.classList.remove('hidden');
+            memberDashboard.classList.add('hidden');
+            formTitle.textContent = 'Log In to Your Account';
+            loginForm.classList.remove('hidden');
+            registrationForm.classList.add('hidden');
+            showLoginBtn.classList.add('bg-indigo-600', 'text-white');
+            showLoginBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            showRegisterBtn.classList.add('bg-gray-200', 'text-gray-700');
+            showRegisterBtn.classList.remove('bg-indigo-600', 'text-white');
+            messageBox.style.display = 'none';
+            editProfileModal.classList.add('hidden');
+        });
+
+        // Function to show the dashboard and populate with user data
+        async function showDashboard(user) {
+            authContainer.classList.add('hidden');
+            memberDashboard.classList.remove('hidden');
+            editProfileModal.classList.add('hidden');
+
+            dashboardUserEmail.textContent = user.email;
+
+            const membersCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationMembers`);
+            const q = query(membersCollectionRef, where("registeredByUserId", "==", user.uid));
+            try {
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    const userData = querySnapshot.docs[0].data();
+                    currentUserProfileDocId = querySnapshot.docs[0].id;
+                    dashboardFullName.textContent = userData.fullName || user.email;
+                    dashboardUserPhone.textContent = userData.phone || 'N/A';
+                    dashboardUserRole.textContent = userData.organizationRole || 'N/A';
+                } else {
+                    currentUserProfileDocId = null;
+                    dashboardFullName.textContent = user.email;
+                    dashboardUserPhone.textContent = 'N/A';
+                    dashboardUserRole.textContent = 'N/A';
+                    console.warn("No additional user data found in Firestore for UID:", user.uid);
+                    showMessage("Your full profile data could not be loaded. Please ensure you've registered completely.", "error");
+                }
+                setupDashboardNewsListener(); // Start listening for news on the dashboard
+            } catch (error) {
+                console.error("Error fetching user profile data:", error);
+                showMessage(`Error loading profile: ${error.message}`, "error");
+            }
+        }
+
+        // Handle initial auth state (e.g., if user is already logged in from a previous session)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                showDashboard(user);
+            } else {
+                showAuthForms();
+            }
+        });
+
+
+        // --- Firebase Registration Logic ---
+        registrationForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            registerButton.disabled = true;
+            registerSpinner.classList.remove('hidden');
+            showMessage('Registering...', 'loading');
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const organizationRole = document.getElementById('organizationRole').value;
+
+            // Basic validation checks
+            if (fullName === '') {
+                 showMessage('Please enter your full name.', 'error');
+                 registerButton.disabled = false;
+                 registerSpinner.classList.add('hidden');
+                 return;
+            }
+            if (phone === '') {
+                 showMessage('Please enter your phone number.', 'error');
+                 registerButton.disabled = false;
+                 registerSpinner.classList.add('hidden');
+                 return;
+            }
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters long.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                const membersCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationMembers`);
+
+                await addDoc(membersCollectionRef, {
+                    fullName: fullName,
+                    email: email,
+                    phone: phone,
+                    organizationRole: organizationRole,
+                    registeredByUserId: user.uid,
+                    registrationDate: serverTimestamp()
+                });
+
+                showMessage('Registration successful! Redirecting to dashboard...', 'success');
+                registrationForm.reset();
+                await showDashboard(user);
+
+            } catch (error) {
+                console.error("Error during registration:", error);
+                let errorMessage = 'Registration failed. Please try again.';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'This email is already registered. Try logging in.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Password is too weak. Please use a stronger password.';
+                }
+                showMessage(errorMessage, 'error');
+            } finally {
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+            }
+        });
+
+        // --- Firebase Login Logic ---
+        loginForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            loginButton.disabled = true;
+            loginSpinner.classList.remove('hidden');
+            showMessage('Logging in...', 'loading');
+
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                showMessage('Login successful! Redirecting to dashboard...', 'success');
+                loginForm.reset();
+                await showDashboard(user);
+
+            } catch (error) {
+                console.error("Error during login:", error);
+                let errorMessage = 'Login failed. Please try again.';
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect email or password. Please try again.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many failed login attempts. Please try again later.';
+                }
+                showMessage(errorMessage, 'error');
+            } finally {
+                loginButton.disabled = false;
+                loginSpinner.classList.add('hidden');
+            }
+        });
+
+        // --- Firebase Logout Logic ---
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessage('You have been logged out successfully.', 'success');
+                // Redirect to the root (index.html) after logout
+                window.location.href = './';
+            } catch (error) {
+                console.error("Error during logout:", error);
+                showMessage(`Logout failed: ${error.message}`, 'error');
+            }
+        });
+
+        // --- Profile Edit Modal Logic ---
+        editProfileBtn.addEventListener('click', async () => {
+            if (!auth.currentUser || !currentUserProfileDocId) {
+                showModalMessage("Cannot edit profile. User not authenticated or profile data not found.", "error");
+                return;
+            }
+
+            const membersCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationMembers`);
+            const q = query(membersCollectionRef, where("registeredByUserId", "==", auth.currentUser.uid));
+            try {
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const userData = querySnapshot.docs[0].data();
+                    document.getElementById('editFullName').value = userData.fullName || '';
+                    document.getElementById('editPhone').value = userData.phone || '';
+                    document.getElementById('editOrganizationRole').value = userData.organizationRole || 'member';
+                    editProfileModal.classList.remove('hidden');
+                } else {
+                    showModalMessage("Could not load your current profile data.", "error");
+                }
+            } catch (error) {
+                console.error("Error loading profile for edit:", error);
+                showModalMessage(`Error loading profile data: ${error.message}`, "error");
+            }
+        });
+
+        cancelEditBtn.addEventListener('click', () => {
+            editProfileModal.classList.add('hidden');
+            modalMessageBox.style.display = 'none';
+        });
+
+        editProfileForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            saveProfileBtn.disabled = true;
+            saveProfileSpinner.classList.remove('hidden');
+            showModalMessage('Saving changes...', 'loading');
+
+            if (!auth.currentUser || !currentUserProfileDocId) {
+                showModalMessage("Error: User not authenticated or profile ID missing.", "error");
+                saveProfileBtn.disabled = false;
+                saveProfileSpinner.classList.add('hidden');
+                return;
+            }
+
+            const updatedFullName = document.getElementById('editFullName').value.trim();
+            const updatedPhone = document.getElementById('editPhone').value.trim();
+            const updatedRole = document.getElementById('editOrganizationRole').value;
+
+            if (updatedFullName === '') {
+                showModalMessage('Full name cannot be empty.', 'error');
+                saveProfileBtn.disabled = false;
+                saveProfileSpinner.classList.add('hidden');
+                return;
+            }
+            if (updatedPhone === '') {
+                showModalMessage('Phone number cannot be empty.', 'error');
+                saveProfileBtn.disabled = false;
+                saveProfileSpinner.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const userDocRef = doc(db, `artifacts/${appId}/public/data/organizationMembers`, currentUserProfileDocId);
+
+                await updateDoc(userDocRef, {
+                    fullName: updatedFullName,
+                    phone: updatedPhone,
+                    organizationRole: updatedRole,
+                    lastUpdated: serverTimestamp()
+                });
+
+                showModalMessage('Profile updated successfully!', 'success');
+                editProfileModal.classList.add('hidden');
+
+                if (auth.currentUser) {
+                    await showDashboard(auth.currentUser);
+                }
+
+            } catch (error) {
+                console.error("Error updating profile:", error);
+                showModalMessage(`Failed to save changes: ${error.message}.`, 'error');
+            } finally {
+                saveProfileBtn.disabled = false;
+                saveProfileSpinner.classList.add('hidden');
+            }
+        });
+
+        // --- Dashboard News Listener ---
+        function setupDashboardNewsListener() {
+            const newsCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationNews`);
+            const q = query(newsCollectionRef, orderBy("timestamp", "desc"), limit(3)); // Show latest 3 news items
+
+            onSnapshot(q, (snapshot) => {
+                dashboardNewsList.innerHTML = ''; // Clear existing news
+                if (snapshot.empty) {
+                    dashboardNewsList.innerHTML = '<p class="text-gray-500">No news items yet.</p>';
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const news = doc.data();
+                    const date = news.timestamp ? new Date(news.timestamp.seconds * 1000).toLocaleDateString() : 'N/A';
+                    const newsItemHtml = `
+                        <li>
+                            <strong class="text-indigo-700">${news.title}</strong>
+                            <p class="text-sm">${news.content.substring(0, 80)}... <span class="text-xs text-gray-500">(${date})</span></p>
+                        </li>
+                    `;
+                    dashboardNewsList.innerHTML += newsItemHtml;
+                });
+            }, (error) => {
+                console.error("Error listening to dashboard news:", error);
+                dashboardNewsList.innerHTML = '<p class="text-red-500">Error loading news.</p>';
+            });
+        }
+
+    </script>
+</body>
+</html>
