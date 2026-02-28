@@ -709,9 +709,10 @@
                     registrationDate: serverTimestamp()
                 });
 
-                showMessage('Registration successful! Redirecting to task dashboard...', 'success');
+                await signOut(auth);
                 registrationForm.reset();
-                await showTaskDashboard(user);
+                alert('Registration Successful! Please log in to continue.');
+                window.location.href = 'login.html';
 
             } catch (error) {
                 console.error("Error during registration:", error);

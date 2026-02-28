@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             min-height: 100vh;
             background-color: #f0f2f5;
         }
+
         .message-box {
             display: none;
             padding: 1rem;
@@ -24,25 +26,30 @@
             display: flex;
             align-items: center;
         }
+
         .message-box .icon {
             margin-right: 0.5rem;
             font-size: 1.25rem;
         }
+
         .message-box.error {
             background-color: #fee2e2;
             color: #ef4444;
             border: 1px solid #ef4444;
         }
+
         .message-box.success {
             background-color: #d1fae5;
             color: #10b981;
             border: 1px solid #10b981;
         }
+
         .message-box.loading {
             background-color: #bfdbfe;
             color: #1d4ed8;
             border: 1px solid #1d4ed8;
         }
+
         /* Modal specific styling */
         .modal {
             position: fixed;
@@ -56,6 +63,7 @@
             align-items: center;
             z-index: 1000;
         }
+
         .modal-content {
             background-color: white;
             padding: 2rem;
@@ -64,36 +72,52 @@
             width: 90%;
             max-width: 500px;
         }
+
         /* Spinner animation */
         @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         .spinner {
             animation: spin 1s linear infinite;
         }
+
         .dashboard-bg {
-            background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet gradient */
+            background: linear-gradient(to right, #6366f1, #8b5cf6);
+            /* Indigo to Violet gradient */
         }
+
         .avatar {
             width: 80px;
             height: 80px;
-            background-color: #cbd5e1; /* Gray-300 */
+            background-color: #cbd5e1;
+            /* Gray-300 */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 3rem;
-            color: #4b5563; /* Gray-700 */
+            color: #4b5563;
+            /* Gray-700 */
             margin: 0 auto 1.5rem;
         }
     </style>
 </head>
+
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div id="authContainer" class="bg-white p-8 rounded-lg shadow-md w-full max-w-md mx-auto">
         <div class="flex justify-center mb-6">
-            <button id="showRegisterBtn" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-l-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button>
-            <button id="showLoginBtn" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-500">Log In</button>
+            <button id="showRegisterBtn"
+                class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-l-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button>
+            <button id="showLoginBtn"
+                class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-500">Log
+                In</button>
         </div>
 
         <h2 id="formTitle" class="text-3xl font-bold text-center text-gray-800 mb-6">Register Your Account</h2>
@@ -104,38 +128,41 @@
             <div>
                 <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                 <input type="text" id="fullName" name="fullName" placeholder="Enter your full name"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <div>
                 <label for="regEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                 <input type="email" id="regEmail" name="regEmail" placeholder="Enter your email"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <div>
                 <label for="regPhone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                 <input type="tel" id="regPhone" name="regPhone" placeholder="e.g., +2547XXXXXXXX"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <div>
                 <label for="regPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input type="password" id="regPassword" name="regPassword" placeholder="Create a password"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <div>
-                <label for="regConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-                <input type="password" id="regConfirmPassword" name="regConfirmPassword" placeholder="Confirm your password"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                <label for="regConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm
+                    Password</label>
+                <input type="password" id="regConfirmPassword" name="regConfirmPassword"
+                    placeholder="Confirm your password"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <div>
-                <label for="organizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in the Organization</label>
+                <label for="organizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in the
+                    Organization</label>
                 <select id="organizationRole" name="organizationRole"
-                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
                     <option value="">Select a role</option>
                     <option value="member">Member</option>
                     <option value="volunteer">Volunteer</option>
@@ -144,9 +171,15 @@
                 </select>
             </div>
             <button type="submit" id="registerButton"
-                    class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Register
-                <svg id="registerSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <svg id="registerSpinner" class="hidden spinner ml-2 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
             </button>
         </form>
 
@@ -154,55 +187,80 @@
             <div>
                 <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                 <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter your email"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <div>
                 <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password"
-                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                       required>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
             </div>
             <button type="submit" id="loginButton"
-                    class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Log In
-                <svg id="loginSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <svg id="loginSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
             </button>
         </form>
 
         <!-- Admin Login Link -->
         <div class="mt-8 text-center text-gray-500 text-sm">
-            Are you an administrator? <a href="admin-dashboard" class="text-indigo-600 hover:underline">Go to Admin Login</a>
+            Are you an administrator? <a href="admin-dashboard" class="text-indigo-600 hover:underline">Go to Admin
+                Login</a>
         </div>
     </div>
 
     <!-- The Member Dashboard -->
-    <div id="memberDashboard" class="hidden w-full max-w-4xl bg-white p-8 rounded-lg shadow-xl mx-auto text-left grid grid-cols-1 md:grid-cols-3 gap-8 dashboard-bg text-white">
+    <div id="memberDashboard"
+        class="hidden w-full max-w-4xl bg-white p-8 rounded-lg shadow-xl mx-auto text-left grid grid-cols-1 md:grid-cols-3 gap-8 dashboard-bg text-white">
         <div class="md:col-span-3 text-center pb-4 border-b border-indigo-300 mb-6">
             <div class="avatar">??</div>
-            <h1 class="text-4xl font-extrabold mb-2">Welcome, <span id="dashboardFullName" class="text-indigo-200">Member!</span></h1>
+            <h1 class="text-4xl font-extrabold mb-2">Welcome, <span id="dashboardFullName"
+                    class="text-indigo-200">Member!</span></h1>
             <p class="text-lg font-light">Your personalized dashboard for the Baraka Bot Organization.</p>
         </div>
 
         <!-- Personal Details Card -->
-        <div class="bg-white bg-opacity-90 text-gray-800 p-6 rounded-lg shadow-md border border-indigo-100 flex flex-col justify-between">
+        <div
+            class="bg-white bg-opacity-90 text-gray-800 p-6 rounded-lg shadow-md border border-indigo-100 flex flex-col justify-between">
             <div>
                 <h3 class="text-2xl font-semibold mb-4 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user mr-2 text-indigo-600"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-user mr-2 text-indigo-600">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
                     Your Profile
                 </h3>
-                <p class="mb-2"><span class="font-medium">Email:</span> <span id="dashboardUserEmail" class="font-normal"></span></p>
-                <p class="mb-2"><span class="font-medium">Phone:</span> <span id="dashboardUserPhone" class="font-normal"></span></p>
+                <p class="mb-2"><span class="font-medium">Email:</span> <span id="dashboardUserEmail"
+                        class="font-normal"></span></p>
+                <p class="mb-2"><span class="font-medium">Phone:</span> <span id="dashboardUserPhone"
+                        class="font-normal"></span></p>
                 <p><span class="font-medium">Role:</span> <span id="dashboardUserRole" class="font-normal"></span></p>
             </div>
-            <button id="editProfileBtn" class="mt-6 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">Edit Profile</button>
+            <button id="editProfileBtn"
+                class="mt-6 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">Edit
+                Profile</button>
         </div>
 
         <!-- News & Resources Card -->
-        <div class="bg-white bg-opacity-90 text-gray-800 p-6 rounded-lg shadow-md border border-gray-200 md:col-span-2 flex flex-col justify-between">
+        <div
+            class="bg-white bg-opacity-90 text-gray-800 p-6 rounded-lg shadow-md border border-gray-200 md:col-span-2 flex flex-col justify-between">
             <div>
                 <h3 class="text-2xl font-semibold mb-4 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone mr-2 text-gray-600"><path d="m3 11 18-8-8 18-10-10z"/><path d="M11.5 11.5 20 20"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-megaphone mr-2 text-gray-600">
+                        <path d="m3 11 18-8-8 18-10-10z" />
+                        <path d="M11.5 11.5 20 20" />
+                    </svg>
                     Organization Updates
                 </h3>
                 <ul class="list-disc list-inside text-gray-700 space-y-2" id="dashboardNewsList">
@@ -210,11 +268,15 @@
                     <!-- News items will be dynamically loaded here from Firestore -->
                 </ul>
             </div>
-            <button class="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">View All News</button>
+            <button
+                class="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">View
+                All News</button>
         </div>
 
         <div class="md:col-span-3 text-center mt-6">
-            <button id="logoutButton" class="bg-red-600 text-white py-2 px-6 rounded-md text-lg font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">Log Out</button>
+            <button id="logoutButton"
+                class="bg-red-600 text-white py-2 px-6 rounded-md text-lg font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">Log
+                Out</button>
         </div>
     </div>
 
@@ -227,20 +289,21 @@
                 <div>
                     <label for="editFullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                     <input type="text" id="editFullName" name="editFullName"
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                           required>
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
                 </div>
                 <div>
                     <label for="editPhone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input type="tel" id="editPhone" name="editPhone"
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                           required>
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
                 </div>
                 <div>
-                    <label for="editOrganizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in the Organization</label>
+                    <label for="editOrganizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in
+                        the Organization</label>
                     <select id="editOrganizationRole" name="editOrganizationRole"
-                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            required>
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required>
                         <option value="member">Member</option>
                         <option value="volunteer">Volunteer</option>
                         <option value="leader">Team Leader</option>
@@ -249,13 +312,20 @@
                 </div>
                 <div class="flex justify-end space-x-4 mt-6">
                     <button type="button" id="cancelEditBtn"
-                            class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        class="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Cancel
                     </button>
                     <button type="submit" id="saveProfileBtn"
-                            class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center">
+                        class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center">
                         Save Changes
-                        <svg id="saveProfileSpinner" class="hidden spinner ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        <svg id="saveProfileSpinner" class="hidden spinner ml-2 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
                     </button>
                 </div>
             </form>
@@ -374,36 +444,7 @@
 
         // Function to show the dashboard and populate with user data
         async function showDashboard(user) {
-            authContainer.classList.add('hidden');
-            memberDashboard.classList.remove('hidden');
-            editProfileModal.classList.add('hidden');
-
-            dashboardUserEmail.textContent = user.email;
-
-            const membersCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationMembers`);
-            const q = query(membersCollectionRef, where("registeredByUserId", "==", user.uid));
-            try {
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    const userData = querySnapshot.docs[0].data();
-                    currentUserProfileDocId = querySnapshot.docs[0].id;
-                    dashboardFullName.textContent = userData.fullName || user.email;
-                    dashboardUserPhone.textContent = userData.phone || 'N/A';
-                    dashboardUserRole.textContent = userData.organizationRole || 'N/A';
-                } else {
-                    currentUserProfileDocId = null;
-                    dashboardFullName.textContent = user.email;
-                    dashboardUserPhone.textContent = 'N/A';
-                    dashboardUserRole.textContent = 'N/A';
-                    console.warn("No additional user data found in Firestore for UID:", user.uid);
-                    showMessage("Your full profile data could not be loaded. Please ensure you've registered completely.", "error");
-                }
-                setupDashboardNewsListener(); // Start listening for news on the dashboard
-            } catch (error) {
-                console.error("Error fetching user profile data:", error);
-                showMessage(`Error loading profile: ${error.message}`, "error");
-            }
+            window.location.href = 'index.html';
         }
 
         // Handle initial auth state (e.g., if user is already logged in from a previous session)
@@ -417,7 +458,7 @@
 
 
         // --- Firebase Registration Logic ---
-        registrationForm.addEventListener('submit', async function(event) {
+        registrationForm.addEventListener('submit', async function (event) {
             event.preventDefault();
 
             registerButton.disabled = true;
@@ -433,16 +474,16 @@
 
             // Basic validation checks
             if (fullName === '') {
-                 showMessage('Please enter your full name.', 'error');
-                 registerButton.disabled = false;
-                 registerSpinner.classList.add('hidden');
-                 return;
+                showMessage('Please enter your full name.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
             }
             if (phone === '') {
-                 showMessage('Please enter your phone number.', 'error');
-                 registerButton.disabled = false;
-                 registerSpinner.classList.add('hidden');
-                 return;
+                showMessage('Please enter your phone number.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
             }
             if (password.length < 6) {
                 showMessage('Password must be at least 6 characters long.', 'error');
@@ -494,7 +535,7 @@
         });
 
         // --- Firebase Login Logic ---
-        loginForm.addEventListener('submit', async function(event) {
+        loginForm.addEventListener('submit', async function (event) {
             event.preventDefault();
 
             loginButton.disabled = true;
@@ -573,7 +614,7 @@
             modalMessageBox.style.display = 'none';
         });
 
-        editProfileForm.addEventListener('submit', async function(event) {
+        editProfileForm.addEventListener('submit', async function (event) {
             event.preventDefault();
             saveProfileBtn.disabled = true;
             saveProfileSpinner.classList.remove('hidden');
@@ -659,4 +700,5 @@
 
     </script>
 </body>
+
 </html>
