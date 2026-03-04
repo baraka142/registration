@@ -211,11 +211,14 @@
             }
         }
 
+        // Global flag to prevent redirect during registration
+        window.isRegistering = false;
+
         // Handle initial auth state (e.g., if user is already logged in from a previous session)
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && !window.isRegistering) {
                 showDashboard(user);
-            } else {
+            } else if (!user) {
                 showAuthForms();
             }
         });
@@ -263,6 +266,9 @@
             }
 
             try {
+                // Prevent auth listener from instantly redirecting
+                window.isRegistering = true;
+
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
@@ -278,11 +284,17 @@
                 });
 
                 await signOut(auth);
+                // Reset flag after sign out
+                window.isRegistering = false;
+
                 registrationForm.reset();
                 alert('Registration Successful! Please log in to continue.');
-                window.location.href = 'login.html';
+
+                // Show the login form
+                showLoginBtn.click();
 
             } catch (error) {
+                window.isRegistering = false;
                 console.error("Error during registration:", error);
                 let errorMessage = 'Registration failed. Please try again.';
                 if (error.code === 'auth/email-already-in-use') {
