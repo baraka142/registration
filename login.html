@@ -11,21 +11,88 @@
 
 <body class="flex items-center justify-center min-h-screen">
     <div id="authContainer" class="theme-card p-8 w-full max-w-md mx-auto">
-        <h2 id="formTitle" class="text-3xl font-bold text-center text-white mb-6">Log In to Your Account</h2>
+        <div class="flex justify-center mb-6">
+            <button id="showRegisterBtn"
+                class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-l-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button>
+            <button id="showLoginBtn"
+                class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-500">Log
+                In</button>
+        </div>
+
+        <h2 id="formTitle" class="text-3xl font-bold text-center text-gray-800 mb-6">Register Your Account</h2>
 
         <div id="messageBox" class="message-box"></div>
 
-        <form id="loginForm" action="#" method="POST" class="space-y-4">
+        <form id="registrationForm" action="#" method="POST" class="space-y-4">
             <div>
-                <label for="loginEmail" class="block text-sm font-medium text-gray-300 mb-1">Email Address</label>
-                <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter your email"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     required>
             </div>
             <div>
-                <label for="loginPassword" class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                <label for="regEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="regEmail" name="regEmail" placeholder="Enter your email"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
+            </div>
+            <div>
+                <label for="regPhone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <input type="tel" id="regPhone" name="regPhone" placeholder="e.g., +2547XXXXXXXX"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
+            </div>
+            <div>
+                <label for="regPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="regPassword" name="regPassword" placeholder="Create a password"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
+            </div>
+            <div>
+                <label for="regConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm
+                    Password</label>
+                <input type="password" id="regConfirmPassword" name="regConfirmPassword"
+                    placeholder="Confirm your password"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
+            </div>
+            <div>
+                <label for="organizationRole" class="block text-sm font-medium text-gray-700 mb-1">Your Role in the
+                    Organization</label>
+                <select id="organizationRole" name="organizationRole"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
+                    <option value="">Select a role</option>
+                    <option value="member">Member</option>
+                    <option value="volunteer">Volunteer</option>
+                    <option value="leader">Team Leader</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <button type="submit" id="registerButton"
+                class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Register
+                <svg id="registerSpinner" class="hidden spinner ml-2 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </button>
+        </form>
+
+        <form id="loginForm" action="#" method="POST" class="space-y-4 hidden">
+            <div>
+                <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="loginEmail" name="loginEmail" placeholder="Enter your email"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required>
+            </div>
+            <div>
+                <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     required>
             </div>
             <button type="submit" id="loginButton"
@@ -73,27 +140,67 @@
         const auth = getAuth(app);
 
         const authContainer = document.getElementById('authContainer');
+        const memberDashboard = document.getElementById('memberDashboard');
+        const registrationForm = document.getElementById('registrationForm');
         const loginForm = document.getElementById('loginForm');
+        const showRegisterBtn = document.getElementById('showRegisterBtn');
+        const showLoginBtn = document.getElementById('showLoginBtn');
         const formTitle = document.getElementById('formTitle');
         const messageBox = document.getElementById('messageBox');
+        const registerButton = document.getElementById('registerButton');
         const loginButton = document.getElementById('loginButton');
         const logoutButton = document.getElementById('logoutButton');
 
+
+
         // Spinners
+        const registerSpinner = document.getElementById('registerSpinner');
         const loginSpinner = document.getElementById('loginSpinner');
+
 
         // Global variable to store the Firestore document ID for the current user's profile
         let currentUserProfileDocId = null;
 
         // Function to display messages in the main message box
         function showMessage(message, type = 'error') {
-            messageBox.innerHTML = `<span class="icon">${type === 'success' ? '✔' : type === 'loading' ? '⌛' : '⚠'}</span>${message}`;
+            messageBox.innerHTML = `<span class="icon">${type === 'success' ? '?' : type === 'loading' ? '?' : '?'}</span>${message}`;
             messageBox.className = `message-box ${type}`;
             messageBox.style.display = 'flex';
             setTimeout(() => {
                 messageBox.style.display = 'none';
             }, 5000);
         }
+
+
+
+        // --- UI Logic to toggle forms ---
+        function showAuthForms() {
+            authContainer.classList.remove('hidden');
+            formTitle.textContent = 'Register Your Account';
+            registrationForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            showRegisterBtn.classList.add('btn-primary');
+            showRegisterBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            showLoginBtn.classList.add('bg-transparent', 'text-gray-400');
+            showLoginBtn.classList.remove('btn-primary');
+            messageBox.style.display = 'none';
+        }
+
+        showRegisterBtn.addEventListener('click', () => {
+            showAuthForms();
+        });
+
+        showLoginBtn.addEventListener('click', () => {
+            authContainer.classList.remove('hidden');
+            formTitle.textContent = 'Log In to Your Account';
+            loginForm.classList.remove('hidden');
+            registrationForm.classList.add('hidden');
+            showLoginBtn.classList.add('btn-primary');
+            showLoginBtn.classList.remove('bg-transparent', 'text-gray-400');
+            showRegisterBtn.classList.add('bg-transparent', 'text-gray-400');
+            showRegisterBtn.classList.remove('btn-primary');
+            messageBox.style.display = 'none';
+        });
 
         // Function to show the dashboard and populate with user data
         async function showDashboard(user) {
@@ -109,11 +216,88 @@
             if (user) {
                 showDashboard(user);
             } else {
-                authContainer.classList.remove('hidden');
-                messageBox.style.display = 'none';
+                showAuthForms();
             }
         });
 
+
+        // --- Firebase Registration Logic ---
+        registrationForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            registerButton.disabled = true;
+            registerSpinner.classList.remove('hidden');
+            showMessage('Registering...', 'loading');
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const organizationRole = document.getElementById('organizationRole').value;
+
+            // Basic validation checks
+            if (fullName === '') {
+                showMessage('Please enter your full name.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
+            }
+            if (phone === '') {
+                showMessage('Please enter your phone number.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters long.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                const membersCollectionRef = collection(db, `artifacts/${appId}/public/data/organizationMembers`);
+
+                await addDoc(membersCollectionRef, {
+                    fullName: fullName,
+                    email: email,
+                    phone: phone,
+                    organizationRole: organizationRole,
+                    registeredByUserId: user.uid,
+                    registrationDate: serverTimestamp()
+                });
+
+                await signOut(auth);
+                registrationForm.reset();
+                alert('Registration Successful! Please log in to continue.');
+                window.location.href = 'login.html';
+
+            } catch (error) {
+                console.error("Error during registration:", error);
+                let errorMessage = 'Registration failed. Please try again.';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'This email is already registered. Try logging in.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Please enter a valid email address.';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'Password is too weak. Please use a stronger password.';
+                }
+                showMessage(errorMessage, 'error');
+            } finally {
+                registerButton.disabled = false;
+                registerSpinner.classList.add('hidden');
+            }
+        });
 
         // --- Firebase Login Logic ---
         loginForm.addEventListener('submit', async function (event) {
