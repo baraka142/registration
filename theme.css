@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* Global Reset & Base Theme */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f172a; /* Dark Obsidian */
+    color: #f8fafc; /* Gray-50 */
+    min-height: 100vh;
+    margin: 0;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Card & Container Stying */
+.theme-card {
+    background-color: #1e293b; /* Slightly lighter obsidian */
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 0 20px 2px rgba(168, 85, 247, 0.2); /* Neon Purple Glow */
+    border: 1px solid #334155;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #a855f7, #22c55e); /* Purple to Green */
+}
+
+/* Inputs, Selects, and Textareas */
+input,
+select,
+textarea {
+    background-color: #334155 !important;
+    color: #f8fafc !important;
+    border: 1px solid #475569 !important;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none !important;
+    border-color: #a855f7 !important; /* Neon Purple focus */
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Typography & Accents */
+.theme-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #a855f7, #d8b4fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.theme-subtitle {
+    font-size: 1rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(135deg, #8b5cf6, #a855f7);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.4);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.6);
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Secondary Button (e.g., Logout / Cancel) */
+.btn-secondary {
+    background-color: #ef4444; 
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-secondary:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px -1px rgba(239, 68, 68, 0.6);
+}
+
+/* Alert / Message Boxes */
+.message-box {
+    display: none;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    align-items: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.message-box .icon {
+    margin-right: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.message-box.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    border: 1px solid #ef4444;
+}
+
+.message-box.success {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #86efac;
+    border: 1px solid #22c55e;
+}
+
+.message-box.loading {
+    background-color: rgba(168, 85, 247, 0.1);
+    color: #d8b4fe;
+    border: 1px solid #a855f7;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar Customization for the aesthetic */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0f172a; 
+}
+::-webkit-scrollbar-thumb {
+    background: #334155; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a855f7; 
+}
